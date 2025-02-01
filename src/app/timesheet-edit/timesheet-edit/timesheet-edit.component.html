@@ -1,0 +1,47 @@
+<div class="container" *ngIf="loginService.isLoginSuccess">
+    <h2>Enter Timesheet</h2>
+    <form>
+      <div class="form-group">
+        <label for="month">Select Month and Year:</label>
+        <input
+          id="month"
+          type="month"
+          [(ngModel)]="selectedMonthYear"
+          name="month"
+          (change)="loadDates()"
+        />
+      </div>
+  
+      <table *ngIf="weeks.length" class="timesheet-table">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+              {{ day }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let week of weeks; let i = index">
+            <td class="week-label">Week {{ i + 1 }}</td>
+            <td *ngFor="let day of week" class="day-cell">
+              <div [ngClass]="{ 'weekend': day?.isWeekend }" class="day-container">
+                <div *ngIf="day">
+                  <label class="date-label">{{ day.date }}</label>
+                  <input
+                    [(ngModel)]="day.hours"
+                    name="hours{{ day.date }}"
+                    type="number"
+                    [readonly]="day.isWeekend"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" (click)="saveTimesheet()" class="btn">Save</button>
+    </form>
+  </div>
+  

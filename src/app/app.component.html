@@ -1,0 +1,17 @@
+<!-- <app-parent [varValue]="varValue"></app-parent>
+<button type="button" (click)="change()">Change Content</button>
+<input type="text" [(ngModel)]="changeValue"/> -->
+<div class="col-sm-12 col-md-12">
+  <nav class="nav" >
+    <div class="time-sheet-menu">
+      <a routerLink="/edit" routerLinkActive="active" *ngIf="loginService.isLoginSuccess">Enter Timesheet</a>
+      <a routerLink="/approve" routerLinkActive="active" *ngIf="loginService.isLoginSuccess">Approve Timesheet</a>
+    </div>
+     <div class="login-div" >
+       <a routerLink="/login"  routerLinkActive="active" *ngIf="!loginService.isLoginSuccess">Login</a>
+       <a routerLink="/logout"  routerLinkActive="active"  *ngIf="loginService.isLoginSuccess">LogOut</a>
+     </div>
+    </nav>
+    <router-outlet></router-outlet>
+    
+</div>

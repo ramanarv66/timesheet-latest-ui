@@ -1,0 +1,20 @@
+<div class="container">
+    <h1>Welcome, Manager Level Access</h1>
+    <div class="reportee-selection">
+      <label for="reportee-select">Select a reportee:</label>
+      <select id="reportee-select" (change)="onReporteeSelect($event)">
+        <option value="">-- Select a reportee --</option>
+        <option *ngFor="let reportee of reportees" [value]="reportee.id" >
+          {{ reportee.name }}
+        </option>
+      </select>
+    </div>
+    <button (click)="getTimeSheet()" [disabled]="!selectedReportee">
+      Get TimeSheet
+    </button>
+    <div *ngIf="selectedReportee" class="welcome-message">
+      Getting timesheet of, {{ selectedReportee.name }}
+    </div>
+  </div>
+  
+  

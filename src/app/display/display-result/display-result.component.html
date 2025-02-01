@@ -1,0 +1,77 @@
+<div class="page">
+
+
+    <div class="table-container">
+        <div class="table-class">
+            <!-- <mat-form-field class="filter-input">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+            </mat-form-field> -->
+
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+                <!-- <ng-container matColumnDef="timesheetId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Timesheet ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.timesheetId}} </td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="userId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> User ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="week">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Week </th>
+                    <td mat-cell *matCellDef="let element"> {{element.week}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date | date:'yyyy-MM-dd'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hoursLogged">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Hours Logged </th>
+                    <td mat-cell *matCellDef="let element"> {{element.hoursLogged}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                </ng-container>
+                <ng-container matColumnDef="day">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Day </th>
+                    <td mat-cell *matCellDef="let element"> {{element.day}} </td>
+                </ng-container>
+                <ng-container matColumnDef="monthNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> MonthNumber </th>
+                    <td mat-cell *matCellDef="let element"> {{element.monthNumber}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{
+        'weekend-row': isWeekend(row.day),
+        'zero-hours-row': !isWeekend(row.day) && row.hoursLogged === 0
+      }">
+                </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[31,61]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+
+
+
+    <div class="charts-div">
+        <div style="" class="doughnut-class">
+            <canvas style="margin-left: 27%;" baseChart [data]="doughnutChartData" [options]="doughnutChartOptions" [type]="'doughnut'">
+            </canvas>
+        </div>
+        <div style="" class="bar-class">
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
+            </canvas>
+        </div>
+    </div>
+</div>

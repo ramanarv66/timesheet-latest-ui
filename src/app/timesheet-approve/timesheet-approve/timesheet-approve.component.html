@@ -1,0 +1,71 @@
+<!-- <div class="timesheet-approval-container">
+    <h1>Timesheet Approval</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Sunday</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groupedTimesheets">
+          <td>{{ group.week }}</td>
+          <ng-container *ngFor="let day of group.days">
+            <td [ngStyle]="{ backgroundColor: isWeekend(day.date) ? '#f4f4f4' : 'white' }">
+              {{ day.hours || 0 }}
+            </td>
+          </ng-container>
+          <td>
+            <button (click)="approveTimesheet(group.week)">Approve</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+   -->
+   <div class="container">
+    <h2>Approve Timesheet</h2>
+    <form>
+     
+  
+      <table *ngIf="weeks.length" class="timesheet-table">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+              {{ day }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let week of weeks; let i = index">
+            <td class="week-label">Week {{ i + 1 }}</td>
+            <td *ngFor="let day of week" class="day-cell">
+              <div [ngClass]="{ 'weekend': day?.isWeekend }" class="day-container">
+                <div *ngIf="day">
+                  <label class="date-label">{{ day.date }}</label>
+                  <input
+                    [(ngModel)]="day.hours"
+                    name="hours{{ day.date }}"
+                    type="number"
+                    [readonly]="day.isWeekend"
+                    placeholder="0"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" (click)="approveTimeSheet()" class="btn">Approve</button>
+    </form>
+  </div>
+  

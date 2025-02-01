@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #343a40;
+    padding: 10px 0;
+    
+  }
+  
+  .nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .nav a:hover, .nav a.active {
+    background-color: #007bff;
+  }
+
+  .time-sheet-menu{
+    display: flex;
+    justify-content: center;
+    background-color: #343a40;
+    padding: 10px 0;
+  }
+  .login-div{
+    /* margin-top: 10px; */
+  }

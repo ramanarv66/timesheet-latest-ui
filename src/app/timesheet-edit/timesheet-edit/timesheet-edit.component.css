@@ -1,0 +1,125 @@
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .timesheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .timesheet-table th,
+  .timesheet-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: top;
+  }
+  
+  .timesheet-table th {
+    background-color: #f9f9f9;
+  }
+  
+  .week-label {
+    font-weight: bold;
+    background-color: #f2f2f2;
+  }
+  
+  .day-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .date-label {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 60px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  
+  input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+  
+  .weekend {
+    background-color: #f0f0f0;
+  }
+  
+  .btn {
+    display: block;
+    margin: 20px auto;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .timesheet-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .timesheet-table th,
+    .timesheet-table td {
+      font-size: 0.8rem;
+      padding: 5px;
+    }
+  
+    input {
+      width: 50px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .timesheet-table {
+      font-size: 0.75rem;
+    }
+  
+    .date-label {
+      font-size: 0.7rem;
+    }
+  
+    input {
+      width: 40px;
+      font-size: 0.7rem;
+    }
+  
+    .btn {
+      padding: 8px 16px;
+    }
+  }
+  
