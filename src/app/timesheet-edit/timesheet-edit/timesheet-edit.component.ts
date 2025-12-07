@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LoginService } from '../../service/login.service';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-timesheet-edit',
   templateUrl: 'timesheet-edit.component.html',
@@ -9,7 +10,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
     providers: [provideNativeDateAdapter()],
 })
 export class TimesheetEditComponent {
-
+isDisable = false;
   selectedMonthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
  weeks: {
   date: Date;
@@ -103,7 +104,26 @@ loadDates() {
     });
   }
   
+  saveTimesheetProceed(){
+     Swal.fire({
+  title: 'Submit Timesheet?',
+  text: 'Please confirm before submitting.',
+  icon: 'question',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#aaa',
+  confirmButtonText: 'Submit',
+  heightAuto: false
+}).then(result => {
+  if (result.isConfirmed) {
+    this.saveTimesheet();
+  }
+});
+
+  }
   saveTimesheet() {
+   
+
   const payload = this.weeks.flatMap((week, weekIndex) =>
     week
       .filter(day => day) // Exclude null padding
@@ -117,19 +137,31 @@ loadDates() {
       }))
   );
 
-  // this.http.post('http://localhost:8080/api/timesheet/save', payload).subscribe(
-  //    (response: any) => alert('Timesheet saved successfully!'),
-  //    (error: any)=> console.error('Error saving timesheet:', error),
-  // );
+  
 
   this.http.post('http://localhost:8080/api/timesheet/save', payload)
   .subscribe(
     (res: any) => {
       console.log("SUCCESS", res);
-      alert("Timesheet saved successfully!");
+      this.isDisable = true;
+     Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: 'Timesheet saved successfully!',
+  confirmButtonColor: '#4CAF50',
+  heightAuto: false
+});
+
     },
     (error) => {
-      console.error("ERROR", error);
+     Swal.fire({
+  icon: 'error',
+  title: 'Oops!',
+  text: 'Something went wrong while saving.',
+  confirmButtonColor: '#d33',
+  heightAuto: false
+});
+
     }
   );
 }

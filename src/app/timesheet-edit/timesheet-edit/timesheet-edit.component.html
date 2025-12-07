@@ -33,25 +33,27 @@
           </mat-form-field> -->
 
           <mat-form-field appearance="outline">
-  <mat-label>Month</mat-label>
+            <mat-label>Month</mat-label>
 
-  <input
-    matInput
-    [matDatepicker]="picker"
-    readonly
-    [value]="selectedMonthDate"
-  />
+            <input
+              matInput
+              [matDatepicker]="picker"
+              readonly
+              [value]="selectedMonthDate"
+            />
 
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
 
-  <mat-datepicker
-    #picker
-    startView="multi-year"
-    (monthSelected)="chosenMonthHandler($event, picker)"
-    panelClass="month-picker"
-  ></mat-datepicker>
-</mat-form-field>
-
+            <mat-datepicker
+              #picker
+              startView="multi-year"
+              (monthSelected)="chosenMonthHandler($event, picker)"
+              panelClass="month-picker"
+            ></mat-datepicker>
+          </mat-form-field>
         </div>
 
         <!-- Calendar grid -->
@@ -93,6 +95,7 @@
                         floatLabel="auto"
                       >
                         <input
+                          style="text-align: center !important"
                           matInput
                           type="number"
                           min="0"
@@ -123,7 +126,13 @@
           Reload
         </button>
 
-        <button mat-flat-button color="primary" (click)="saveTimesheet()">
+        <button
+          style="margin-left: 10px !important"
+          mat-flat-button
+          [disabled]="isDisable"
+          color="primary"
+          (click)="saveTimesheetProceed()"
+        >
           <mat-icon>save</mat-icon>
           Save
         </button>
