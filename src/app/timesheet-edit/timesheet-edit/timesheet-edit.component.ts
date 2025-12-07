@@ -1,64 +1,96 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LoginService } from '../../service/login.service';
-
+import {provideNativeDateAdapter} from '@angular/material/core';
 @Component({
   selector: 'app-timesheet-edit',
   templateUrl: 'timesheet-edit.component.html',
   styleUrl: 'timesheet-edit.component.css',
+    providers: [provideNativeDateAdapter()],
 })
 export class TimesheetEditComponent {
 
   selectedMonthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
-  weeks: { date: string; day: string; hours: number; isWeekend: boolean }[][] = [];
+ weeks: {
+  date: Date;
+  day: number;
+  hours: number;
+  isWeekend: boolean;
+  isToday: boolean;
+  isDisabled: boolean;
+}[][] = [];
   currentMonth: number = 0;
 
   constructor(private http: HttpClient, public loginService: LoginService){}
   ngOnInit() {
     this.loadDates();
   }
+selectedMonthDate = new Date();
 
-  loadDates() {
-    const [year, month] = this.selectedMonthYear.split('-').map(Number);
-    this.currentMonth = month;
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
+chosenMonthHandler(normalizedMonth: Date, datepicker: any) {
+  this.selectedMonthDate = normalizedMonth;
 
-    const dates: { date: string; day: string; hours: number; isWeekend: boolean }[] = [];
-    for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(year, month - 1, day);
-      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-      const isWeekend = dayName === 'Saturday' || dayName === 'Sunday';
-      dates.push({
-        date: `${day}/${month}/${year}`,
-        day: dayName,
-        hours: isWeekend ? 0 : 0,
-        isWeekend,
-      });
-    }
-console.log('dates', dates)
-    // Group dates into weeks
-    this.weeks = [];
-    let week: any[] = new Array(firstDayOfMonth).fill(null); // Fill the first week with empty slots for alignment
-    console.log('week', week)
-    dates.forEach((date, index) => {
-      week.push(date);
-      if ((index + firstDayOfMonth + 1) % 7 === 0 || index === dates.length - 1) {
-        this.weeks.push(week);
-        week = [];
-      }
-    });
+  // Convert to yyyy-MM format you already use
+  this.selectedMonthYear =
+    normalizedMonth.getFullYear() +
+    "-" +
+    String(normalizedMonth.getMonth() + 1).padStart(2, "0");
+
+  this.loadDates();
+  datepicker.close();
+}
+
+
+loadDates() {
+  if (!this.selectedMonthYear) return;
+
+  const [yearStr, monthStr] = this.selectedMonthYear.split("-");
+  const year = Number(yearStr);
+  const month = Number(monthStr) - 1;
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const today = new Date();
+
+  this.weeks = [];
+  let week: any[] = [];
+
+  // ⭐ FIX: pad empty cells BEFORE first day of month
+  const padDays = firstDay.getDay(); // 0=Sun
+  for (let i = 0; i < padDays; i++) {
+    week.push(null);
   }
 
- 
-  saveTimesheet() {
+  for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
+    const dateCopy = new Date(d);
+    const weekend = dateCopy.getDay() === 0 || dateCopy.getDay() === 6;
+
+    week.push({
+      date: dateCopy,
+      day: dateCopy.getDate(),
+      hours: 0,
+      isWeekend: weekend,
+      isToday: dateCopy.toDateString() === today.toDateString(),
+      isDisabled: weekend
+    });
+
+    if (dateCopy.getDay() === 6) {
+      this.weeks.push(week);
+      week = [];
+    }
+  }
+
+  if (week.length > 0) this.weeks.push(week);
+}
+
+  saveTimesheet1() {
     const payload = this.weeks.flatMap(week =>
       week
         .filter(day => day) // Exclude empty slots
         .map(day => ({
           userId: this.loginService.userId, 
           week: `Week ${this.weeks.indexOf(week) + 1}`,
-          date: day.date,
+          date: day.date.toISOString().substring(0, 10), 
           hoursLogged: day.hours,
           day: day.day,
           monthNumber: this.currentMonth
@@ -71,5 +103,43 @@ console.log('dates', dates)
     });
   }
   
+  saveTimesheet() {
+  const payload = this.weeks.flatMap((week, weekIndex) =>
+    week
+      .filter(day => day) // Exclude null padding
+      .map(day => ({
+        userId: this.loginService.userId,
+        week: `Week ${weekIndex + 1}`,
+        date: this.formatDate(day.date),
+        hoursLogged: day.hours,
+        day: day.day,
+        monthNumber: this.currentMonth
+      }))
+  );
+
+  // this.http.post('http://localhost:8080/api/timesheet/save', payload).subscribe(
+  //    (response: any) => alert('Timesheet saved successfully!'),
+  //    (error: any)=> console.error('Error saving timesheet:', error),
+  // );
+
+  this.http.post('http://localhost:8080/api/timesheet/save', payload)
+  .subscribe(
+    (res: any) => {
+      console.log("SUCCESS", res);
+      alert("Timesheet saved successfully!");
+    },
+    (error) => {
+      console.error("ERROR", error);
+    }
+  );
+}
+formatDate(d: Date): string {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
+}
+
   
 }

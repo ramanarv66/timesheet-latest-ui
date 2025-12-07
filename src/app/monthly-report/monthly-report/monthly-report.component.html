@@ -1,0 +1,47 @@
+<div class="page" *ngIf="loginService.isLoginSuccess">
+  <mat-toolbar color="primary" class="ts-toolbar">
+    <span>Timesheet Reports</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div class="page-content">
+    <mat-card class="ts-card">
+      <mat-card-header>
+        <mat-card-title>Monthly Timesheet – Team View</mat-card-title>
+        <mat-card-subtitle>
+          Select a month and download the Excel summary
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="filters">
+          <mat-form-field appearance="outline">
+            <mat-label>Month</mat-label>
+            <input
+              matInput
+              type="month"
+              [(ngModel)]="selectedMonthYear"
+              (change)="onMonthChange()"
+            />
+          </mat-form-field>
+
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="downloadExcel()"
+          >
+            <mat-icon>file_download</mat-icon>
+            Download Excel
+          </button>
+        </div>
+
+        <!-- (Optional) show same grid in UI
+             You can reuse similar Material table / grid here
+             based on your API response -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

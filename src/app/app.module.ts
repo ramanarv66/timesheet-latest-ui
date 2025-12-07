@@ -26,6 +26,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgChartsModule } from 'ng2-charts';
+import { MonthlyReportComponent } from './monthly-report/monthly-report/monthly-report.component';
+import { MaterialModule } from './material.module';
 const routes: Routes = [
   { path: 'edit', component: TimesheetEditComponent },
   { path: 'approve', component: TimesheetApproveComponent },
@@ -50,10 +52,11 @@ const routes: Routes = [
     LogoutComponent,
     ManagerComponent,
     EmployeedetailComponent,
-    DisplayResultComponent
+    DisplayResultComponent,
+    MonthlyReportComponent
   ],
   imports: [
-    BrowserModule,HttpClientModule,
+    BrowserModule,HttpClientModule ,BrowserAnimationsModule, MaterialModule,
     RouterModule.forRoot(routes),
     AppRoutingModule,FormsModule,
     OverlayPanelModule,ButtonModule, BrowserAnimationsModule, ReactiveFormsModule,

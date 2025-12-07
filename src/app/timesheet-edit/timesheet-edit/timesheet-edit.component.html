@@ -1,47 +1,133 @@
-<div class="container" *ngIf="loginService.isLoginSuccess">
-    <h2>Enter Timesheet</h2>
-    <form>
-      <div class="form-group">
-        <label for="month">Select Month and Year:</label>
-        <input
-          id="month"
-          type="month"
-          [(ngModel)]="selectedMonthYear"
-          name="month"
-          (change)="loadDates()"
-        />
-      </div>
-  
-      <table *ngIf="weeks.length" class="timesheet-table">
-        <thead>
-          <tr>
-            <th>Week</th>
-            <th *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
-              {{ day }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let week of weeks; let i = index">
-            <td class="week-label">Week {{ i + 1 }}</td>
-            <td *ngFor="let day of week" class="day-cell">
-              <div [ngClass]="{ 'weekend': day?.isWeekend }" class="day-container">
-                <div *ngIf="day">
-                  <label class="date-label">{{ day.date }}</label>
-                  <input
-                    [(ngModel)]="day.hours"
-                    name="hours{{ day.date }}"
-                    type="number"
-                    [readonly]="day.isWeekend"
-                    placeholder="0"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" (click)="saveTimesheet()" class="btn">Save</button>
-    </form>
+<div class="page" *ngIf="loginService.isLoginSuccess">
+  <!-- Top bar -->
+  <mat-toolbar color="primary" class="ts-toolbar">
+    <span class="logo">Timesheet</span>
+    <span class="spacer"></span>
+    <span class="user-label">
+      <mat-icon>account_circle</mat-icon>
+      {{ loginService.userId || "Logged in user" }}
+    </span>
+  </mat-toolbar>
+
+  <div class="page-content">
+    <mat-card class="ts-card">
+      <mat-card-header>
+        <mat-card-title>Enter Timesheet</mat-card-title>
+        <mat-card-subtitle>
+          Log your hours in a monthly calendar view
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Month selector -->
+        <div class="filters">
+          <!-- <mat-form-field>
+            <mat-label>Month</mat-label>
+            <input
+              matInput
+              type="month"
+              [(ngModel)]="selectedMonthYear"
+              name="month"
+              (change)="loadDates()"
+            />
+          </mat-form-field> -->
+
+          <mat-form-field appearance="outline">
+  <mat-label>Month</mat-label>
+
+  <input
+    matInput
+    [matDatepicker]="picker"
+    readonly
+    [value]="selectedMonthDate"
+  />
+
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
+  <mat-datepicker
+    #picker
+    startView="multi-year"
+    (monthSelected)="chosenMonthHandler($event, picker)"
+    panelClass="month-picker"
+  ></mat-datepicker>
+</mat-form-field>
+
+        </div>
+
+        <!-- Calendar grid -->
+        <div class="calendar-wrapper" *ngIf="weeks.length">
+          <table class="calendar mat-elevation-z2">
+            <thead>
+              <tr>
+                <th class="week-col">Week</th>
+                <th
+                  *ngFor="
+                    let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                  "
+                >
+                  {{ day }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let week of weeks; let i = index">
+                <td class="week-col">
+                  <span class="week-label">Week {{ i + 1 }}</span>
+                </td>
+
+                <td *ngFor="let day of week">
+                  <ng-container *ngIf="day; else emptyCell">
+                    <div
+                      class="day-cell"
+                      [ngClass]="{
+                        weekend: day.isWeekend,
+                        today: day.isToday
+                      }"
+                    >
+                      <div class="date-label">{{ day.date | date : "d" }}</div>
+
+                      <mat-form-field
+                        appearance="outline"
+                        class="hours-field"
+                        floatLabel="auto"
+                      >
+                        <input
+                          matInput
+                          type="number"
+                          min="0"
+                          max="24"
+                          [(ngModel)]="day.hours"
+                          [disabled]="day.isDisabled"
+                          [readonly]="day.isDisabled"
+                          placeholder="0"
+                          class="hours-input"
+                        />
+                      </mat-form-field>
+                    </div>
+                  </ng-container>
+
+                  <ng-template #emptyCell>
+                    <div class="day-cell empty"></div>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-stroked-button color="primary" (click)="loadDates()">
+          <mat-icon>refresh</mat-icon>
+          Reload
+        </button>
+
+        <button mat-flat-button color="primary" (click)="saveTimesheet()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
-  
+</div>
