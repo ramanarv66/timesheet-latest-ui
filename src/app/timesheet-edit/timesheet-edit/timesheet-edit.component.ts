@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class TimesheetEditComponent {
 isDisable = false;
+holidays: string[] = []; // yyyy-MM-dd
+
   selectedMonthYear = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
  weeks: {
   date: Date;
@@ -18,13 +20,15 @@ isDisable = false;
   hours: number;
   isWeekend: boolean;
   isToday: boolean;
+  isHoliday: boolean;
   isDisabled: boolean;
 }[][] = [];
   currentMonth: number = 0;
 
   constructor(private http: HttpClient, public loginService: LoginService){}
   ngOnInit() {
-    this.loadDates();
+     this.loadHolidaysForSelectedMonth();
+   // this.loadDates();
   }
 selectedMonthDate = new Date();
 
@@ -37,10 +41,25 @@ chosenMonthHandler(normalizedMonth: Date, datepicker: any) {
     "-" +
     String(normalizedMonth.getMonth() + 1).padStart(2, "0");
 
-  this.loadDates();
+  //this.loadDates();
+  this.loadHolidaysForSelectedMonth();
   datepicker.close();
 }
 
+loadHolidaysForSelectedMonth() {
+  if (!this.selectedMonthYear) return;
+
+  const [yearStr, monthStr] = this.selectedMonthYear.split('-');
+  const year = +yearStr;
+  const month = +monthStr;
+
+  this.http
+    .get<any[]>(`http://localhost:8080/api/holidays/${year}/${month}`)
+    .subscribe(res => {
+      this.holidays = res.map(h => h.holidayDate);
+      this.loadDates(); // calendar builds AFTER holidays are known
+    });
+}
 
 loadDates() {
   if (!this.selectedMonthYear) return;
@@ -64,6 +83,7 @@ loadDates() {
 
   for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
     const dateCopy = new Date(d);
+    const isHoliday = this.holidays.includes(this.formatDate(dateCopy));
     const weekend = dateCopy.getDay() === 0 || dateCopy.getDay() === 6;
 
     week.push({
@@ -71,6 +91,7 @@ loadDates() {
       day: dateCopy.getDate(),
       hours: 0,
       isWeekend: weekend,
+      isHoliday: isHoliday,
       isToday: dateCopy.toDateString() === today.toDateString(),
       isDisabled: weekend
     });
@@ -173,5 +194,13 @@ formatDate(d: Date): string {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-  
+  loadHolidays(year: number, month: number) {
+  this.http
+    .get<any[]>(`http://localhost:8080/api/holidays/${year}/${month}`)
+    .subscribe(res => {
+      this.holidays = res.map(h => h.holidayDate);
+      this.loadDates(); // rebuild calendar AFTER holidays are loaded
+    });
+}
+
 }

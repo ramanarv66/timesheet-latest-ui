@@ -21,38 +21,15 @@
       <mat-card-content>
         <!-- Month selector -->
         <div class="filters">
-          <!-- <mat-form-field>
-            <mat-label>Month</mat-label>
-            <input
-              matInput
-              type="month"
-              [(ngModel)]="selectedMonthYear"
-              name="month"
-              (change)="loadDates()"
-            />
-          </mat-form-field> -->
-
           <mat-form-field appearance="outline">
             <mat-label>Month</mat-label>
 
-            <input
-              matInput
-              [matDatepicker]="picker"
-              readonly
-              [value]="selectedMonthDate"
-            />
+            <input matInput [matDatepicker]="picker" readonly [value]="selectedMonthDate" />
 
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 
-            <mat-datepicker
-              #picker
-              startView="multi-year"
-              (monthSelected)="chosenMonthHandler($event, picker)"
-              panelClass="month-picker"
-            ></mat-datepicker>
+            <mat-datepicker #picker startView="multi-year" (monthSelected)="chosenMonthHandler($event, picker)"
+              panelClass="month-picker"></mat-datepicker>
           </mat-form-field>
         </div>
 
@@ -62,11 +39,9 @@
             <thead>
               <tr>
                 <th class="week-col">Week</th>
-                <th
-                  *ngFor="
+                <th *ngFor="
                     let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-                  "
-                >
+                  ">
                   {{ day }}
                 </th>
               </tr>
@@ -80,34 +55,24 @@
 
                 <td *ngFor="let day of week">
                   <ng-container *ngIf="day; else emptyCell">
-                    <div
-                      class="day-cell"
-                      [ngClass]="{
+                    <!-- <div class="day-cell" [ngClass]="{
                         weekend: day.isWeekend,
                         today: day.isToday
-                      }"
-                    >
+                      }"> -->
+                    <div class="day-cell" [ngClass]="{
+                        weekend: day.isWeekend,
+                        holiday: day.isHoliday,
+                        today: day.isToday
+                      }">
                       <div class="date-label">{{ day.date | date : "d" }}</div>
 
-                      <mat-form-field
-                        appearance="outline"
-                        class="hours-field"
-                        floatLabel="auto"
-                      >
-                        <input
-                          style="text-align: center !important"
-                          matInput
-                          type="number"
-                          min="0"
-                          max="24"
-                          [(ngModel)]="day.hours"
-                          [disabled]="day.isDisabled"
-                          [readonly]="day.isDisabled"
-                          placeholder="0"
-                          class="hours-input"
-                        />
+                      <mat-form-field appearance="outline" class="hours-field" floatLabel="auto">
+                        <input style="text-align: center !important" matInput type="number" min="0" max="24"
+                          [(ngModel)]="day.hours" [disabled]="day.isDisabled" [readonly]="day.isDisabled"
+                          placeholder="0" class="hours-input" />
                       </mat-form-field>
                     </div>
+                    <!-- </div> -->
                   </ng-container>
 
                   <ng-template #emptyCell>
@@ -126,13 +91,8 @@
           Reload
         </button>
 
-        <button
-          style="margin-left: 10px !important"
-          mat-flat-button
-          [disabled]="isDisable"
-          color="primary"
-          (click)="saveTimesheetProceed()"
-        >
+        <button style="margin-left: 10px !important" mat-flat-button [disabled]="isDisable" color="primary"
+          (click)="saveTimesheetProceed()">
           <mat-icon>save</mat-icon>
           Save
         </button>

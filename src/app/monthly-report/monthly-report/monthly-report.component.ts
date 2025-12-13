@@ -21,6 +21,7 @@ export class MonthlyReportComponent {
 
   onMonthChange() {
     // later if you want to refresh grid view
+    
   }
 
   refresh() {

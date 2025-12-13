@@ -1,4 +1,4 @@
-<div class="container" [@fadeInOut]>
+<!-- <div class="container" [@fadeInOut]>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-container">
       <h2>Login</h2>
       <div class="form-group">
@@ -20,4 +20,39 @@
     </form>
   </div>
   
-  
+   -->
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2 class="login-title">Login</h2>
+
+    <!-- Username -->
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" [(ngModel)]="username" placeholder="Enter username" />
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label>Password</label>
+      <input
+        type="password"
+        [(ngModel)]="password"
+        placeholder="Enter password"
+      />
+    </div>
+
+    <!-- Login Button -->
+    <button
+      class="btn-login"
+      (click)="onLogin()"
+      [disabled]="!username || !password"
+    >
+      Login
+    </button>
+
+    <!-- Signup Button -->
+    <button class="btn-signup" routerLink="/signup">
+      Don't have an account? Sign up
+    </button>
+  </div>
+</div>
