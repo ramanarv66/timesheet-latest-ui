@@ -1,116 +1,150 @@
-/* Full-page centered wrapper */
-.login-wrapper {
-  height: 100vh;
-  width: 100%;
+/* MAIN LAYOUT */
+.login-layout {
   display: flex;
-  justify-content: center;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* LEFT SIDE */
+.login-left {
+  width: 45%;
+  display: flex;
   align-items: center;
-  background: #f5f6fa;
-  padding: 20px;
-}
-
-/* Modern login card */
-.login-card {
-  width: 360px;
+  justify-content: center;
   background: #ffffff;
-  padding: 32px 28px;
-  border-radius: 12px;
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
-  text-align: center;
-  animation: fadeIn 0.5s ease-out;
 }
 
-/* Card title */
-.login-title {
-  font-size: 26px;
-  font-weight: 700;
-  color: #2d3436;
-  margin-bottom: 25px;
+.login-box {
+  width: 360px;
 }
 
-/* Input containers */
-.form-group {
-  margin-bottom: 18px;
-  text-align: left;
-}
-
-.form-group label {
-  font-weight: 600;
-  font-size: 14px;
-  color: #555;
+.login-box h1 {
+  font-size: 28px;
+  color: #1f2937;
   margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+/* FORM */
+.login-box label {
   display: block;
-}
-
-/* Inputs */
-.form-group input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #dcdde1;
-  border-radius: 8px;
-  font-size: 15px;
-  outline: none;
-  transition: 0.25s ease;
-}
-
-/* Input focus */
-.form-group input:focus {
-  border-color: #0984e3;
-  box-shadow: 0 0 5px rgba(9, 132, 227, 0.35);
-}
-
-/* Login button */
-.btn-login {
-  width: 100%;
-  padding: 12px;
-  background: #673ab7;
-  color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: 5px;
-  transition: 0.25s ease;
-}
-
-.btn-login:hover {
-  background: #673ab7;
-}
-
-.btn-login:disabled {
-  background: #b2bec3;
-  cursor: not-allowed;
-}
-
-/* Signup button */
-.btn-signup {
-  width: 100%;
-  padding: 12px;
-  background: white;
-  color: #0984e3;
-  border: 2px solid #74b9ff;
-  border-radius: 8px;
-  font-size: 15px;
-  margin-top: 12px;
+  margin-bottom: 6px;
+  font-size: 13px;
   font-weight: 500;
+  color: #374151;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.login-box input:focus {
+  border-color: #6366f1;
+  outline: none;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.remember {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.forgot {
+  color: #6366f1;
   cursor: pointer;
-  transition: 0.25s ease;
 }
 
-.btn-signup:hover {
-  background: #dfe6e9;
+/* BUTTON */
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #6366f1;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
-/* Smooth fade animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
+.login-box button:hover {
+  background: #4f46e5;
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.login-box button:disabled {
+  background: #9ca3af;
+}
+
+/* FOOTER */
+.footer-text {
+  margin-top: 24px;
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* RIGHT SIDE (ABSTRACT ART) */
+.login-right {
+  width: 55%;
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  position: relative;
+  overflow: hidden;
+}
+
+/* SHAPES (NO COPYRIGHT) */
+.shape {
+  position: absolute;
+  opacity: 0.2;
+}
+
+.circle {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: #ffffff;
+  top: 10%;
+  left: 15%;
+}
+
+.square {
+  width: 160px;
+  height: 160px;
+  background: #22d3ee;
+  bottom: 20%;
+  left: 20%;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 200px solid #facc15;
+  top: 25%;
+  right: 15%;
+}
+
+.ring {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 12px solid #ffffff;
+  bottom: 10%;
+  right: 10%;
 }
