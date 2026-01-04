@@ -1,0 +1,41 @@
+<div class="home-container">
+
+  <!-- Welcome Section -->
+  <div class="welcome-card">
+    <h2>Welcome back 👋</h2>
+    <p class="subtitle">
+      Manage your timesheets, holidays, and reports from here
+    </p>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="actions-grid">
+
+    <div class="action-card" routerLink="/login">
+      <div class="icon">🗓️</div>
+      <h3>Enter Timesheet</h3>
+      <p>Fill and submit your monthly timesheet</p>
+    </div>
+
+    <div class="action-card" (click)="downloadReport()">
+      <div class="icon">🖨️</div>
+      <h3>View Reports</h3>
+      <p>Download monthly Excel reports</p>
+    </div>
+
+    <div class="action-card" routerLink="/holidays">
+      <div class="icon">🎉</div>
+      <h3>Holidays</h3>
+      <p>View company holiday calendar</p>
+    </div>
+
+    <div class="action-card disabled">
+      <div class="icon">⚙️</div>
+      <h3>Settings</h3>
+      <p>Coming soon</p>
+    </div>
+
+  </div>
+
+
+</div>

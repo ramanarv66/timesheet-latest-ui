@@ -1,0 +1,113 @@
+.home-container {
+  padding: 40px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 60px);
+}
+
+/* Welcome Card */
+.welcome-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 24px 32px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-card h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #1f2937;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Action Cards Grid */
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+/* Individual Card */
+.action-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+}
+
+.action-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  border-color: #2563eb;
+}
+
+.action-card .icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.action-card h3 {
+  margin: 8px 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.action-card p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Disabled Card */
+.action-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-card.disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-color: transparent;
+}
+
+.app-navbar {
+  height: 56px;
+  background-color: #2f3b45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: #ffffff;
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nav-right {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid #ffffff55;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-btn:hover {
+  background-color: #ffffff22;
+}

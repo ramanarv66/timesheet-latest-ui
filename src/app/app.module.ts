@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NgChartsModule } from 'ng2-charts';
 import { MonthlyReportComponent } from './monthly-report/monthly-report/monthly-report.component';
 import { MaterialModule } from './material.module';
+import { ActionComponent } from './action/action/action.component';
 
 
 const routes: Routes = [
@@ -37,8 +38,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'manager', component: ManagerComponent },
+  { path: 'actions', component: ActionComponent },
   { path: ":empname/:empid", component: EmployeedetailComponent },
-  { path: '', redirectTo: '/edit', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 
